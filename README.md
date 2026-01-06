@@ -1,195 +1,291 @@
 # LGTV-Firmware-Downgrade
 
-This guide will help to walk you through downgrading the Software Version and also webOS to a previous version so you can root/jailbreak webOS on on an LGTV from webOS version 4 to 6. **(This document has been edited as of July 25th 2022 - See Commit Changes)**
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub](https://img.shields.io/github/license/grteam2/LGTV-Firmware-Downgrade)](https://github.com/grteam2/LGTV-Firmware-Downgrade/blob/main/LICENSE)
+[![Maintenance](https://img.shields.io/badge/Maintenance-Passive%20use-blue.svg)](https://github.com/grteam2/LGTV-Firmware-Downgrade)
 
-<a href='https://ko-fi.com/Z8Z6E0CY0' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+> **⚠️ WARNING**: Downgrading firmware is risky and could brick your TV. Proceed at your own risk. This may void your warranty.
 
-This has been confirmed to work on an LG 43 Inch TV 2021 Model - LG-43UP75006LF https://www.lg.com/uk/tvs/lg-43up75006lf from Software Version 3.30.10 to 3.21.30 but should work on other LG TV models too with the relevant firmware for that TV.
+A comprehensive guide to downgrade LG TV Software and webOS firmware to enable root/jailbreak on webOS versions 4-6.
 
-For the original thread on AV Forums which helped in creating this guide please go here https://www.avsforum.com/threads/guide-lg-webos-tvs-firmware-downgrade-advanced-users-only.3217168/
+**Last Updated**: July 25, 2022
 
-For more information on the Homebrew Channel please go here https://github.com/webosbrew/webos-homebrew-channel
+---
 
-For more information on how the rooting process works from a technical point of view or if you haven't updated your TV yet then please go here https://github.com/RootMyTV/RootMyTV.github.io/
+## Table of Contents
 
-For the background on why I even did this then please click here for the [Background](https://github.com/reprodev/LGTV-Firmware-Downgrade/edit/main/README.md#background)
+- [Verified Compatibility](#verified-compatibility)
+- [Prerequisites](#prerequisites)
+- [Quick Start](#quick-start)
+- [Getting Previous Firmware](#getting-previous-firmware)
+- [USB Drive Setup](#usb-drive-setup)
+- [Developer Mode Setup](#developer-mode-setup)
+- [Downgrade Methods](#downgrade-methods)
+  - [Method 1: Web Browser](#method-1---webos-app-club-online-downgrade)
+  - [Method 2: IPK File](#method-2---install-a-downgrade-ipk-file)
+  - [Method 3: CLI Command](#method-3---send-a-command-via-the-webos-tv-cli)
+- [Pre-Root Steps](#final-steps-before-root)
+- [Rooting Process](#its-rooting-time)
+- [FAQ](#faq)
+- [Background](#background)
+- [References](#special-thanks-and-references)
+- [Support](#support)
 
-# What You'll Need Before Starting
+---
 
-1. An LG TV with Developer Mode App installed and activated https://webostv.developer.lge.com/develop/app-test/using-devmode-app/
-2. An LG Developer Account https://webostv.developer.lge.com/develop/app-test/using-devmode-app/
-3. Homebrew Channel (Optional)
-4. A USB thumb drive formatted as FAT32 or NTFS [Setting up your USB Thumb Drive](https://github.com/reprodev/LGTV-Firmware-Downgrade/edit/main/README.md#setting-up-your-usb-thumb-drive)
-5. Your TV's previous firmware epk file [Getting your Previous Firmware](https://github.com/reprodev/LGTV-Firmware-Downgrade/edit/main/README.md#getting-your-previous-firmware)
-6. LG webOS Cli Install Package (Needed for Method 2 and 3) 
-7. LG Developer Manager Desktop App https://github.com/webosbrew/dev-manager-desktop (Needed for Method 2 and 3)
-8. Downgrade Launch App ipk https://forum.xda-developers.com/attachments/downgrade-launch-app_1-0-0_all-rar.5584169/?hash=f31b04de248f3fd1a0646ed9efa70b50
-9. webos4x-6x.expertmode.downgrade IPK http://45.140.167.171/ipk/webos4x-6x.expertmode.downgrade_1.0.0_all.ipk
+## Verified Compatibility
 
-# Getting your Previous Firmware
+| TV Model | Original Version | Downgraded To | Status |
+|----------|------------------|---------------|--------|
+| LG 43UP75006LF | 3.30.10 | 3.21.30 | ✅ Tested |
 
-**(DISCLAIMER)** Please make sure you get the right firmware for your TV as there will be no checks run when you go to install the file by the TV. This means you could try to install the firmware for a different TV on yours. If you're unsure check the Reference Models on the LG website as one firmware covers several TVs.
+*Should work on other LG TV models with the relevant firmware.*
 
-## Option 1 - Go The Korean LG TV Website
+---
 
-1. Go the Korean LG TV Website and using your model number change the end of the address so that you get to your Tv firmware page. If this works you can Skip past this section to the Methods. If this doesn't work then follow the steps below to get the correct firmware for your TV.
-2. In this example we are downgrading to 3.21.30 so go to this link https://www.lg.com/uk/support/product/lg-43UP75006LF.AEKD for the TV from the UK LG site or wherever you are based
-3. On this page scroll down to the bottom right and click on the reference link under the Software download which will open in a new window and linked here https://www.lg.com/uk/support/product/lg-43UP75006LF.AEKD#software_drivers_reference_2
-4. All of the models listed can use that firmware and so can your TV so keep a note of these somewhere as you may need them for Step 5.
-5. Go to the Korean LG TV Website Driver Support section and then translate to English. Linked here https://www.lge.co.kr/support/product-manuals?title=driver&mktModel
-6. You can then search for the TV by using the Dropdown menu on the left to select Tv/Projectors and then the type of TV you have on the right. In this example, it would be Ultra HD and then you type "43" in the search to find a model on the page in the list. One of these will match the ones listed in the reference for your firmware.
-7. In my case this was **2021 Ultra HDTV_ Nanocell_ Latest Software_UP75_82_83_NANO75_77_83KPA_LM21A_Ver.03.21.30** for the **43NANO75KPA** model which is one of the reference models and the latest Firmware I found I could use.
-8. Once you are on the firmware page you will have all the previous versions for your TV, if you are sure that this is the correct one for your TV based on the reference then download the zip file.
-9. **(DISCLAIMER)** Make sure this is the correct file for your TV before and correct version that you want. I would suggest you also download the latest firmware for your TV in case you need to get back to the latest firmware at a later date. Once you have these zip files downloaded make sure you have a backup of them somewhere like a Dropbox/USB Hard-drive as there is always the chance that these files will be removed at some point from the official site.
+## Prerequisites
 
-## Option 2 - Go to the Russian LG TV Web OS Telegram Channel
+### Required Items
 
-Go to https://t.me/lgwebosusb and find the latest exploitable firmware for your LG TV
+1. **LG TV** with Developer Mode App installed and activated
+2. **LG Developer Account** - [Sign up here](https://webostv.developer.lge.com/develop/app-test/using-devmode-app/)
+3. **USB Thumb Drive** (FAT32 or NTFS formatted)
+4. **Previous firmware EPK file** - See [Getting Previous Firmware](#getting-previous-firmware)
+5. **Homebrew Channel** (Optional)
+6. **LG webOS CLI Install Package** (for Methods 2 & 3)
+7. **LG Developer Manager Desktop App** - [Download](https://github.com/webosbrew/dev-manager-desktop)
 
-**Please Note**: I used Option 1 but if you're having trouble then Option 2 may be the best way for you as suggested by others after this was first published.
+### Required Downloads
 
-You should now have the correct previous firmware for your LG TV downloaded and have it backed up so we can move onto setting up your USB thumb drive.
+| File | Purpose | Link |
+|------|---------|------|
+| Downgrade Launch App | Method 2 | [XDA Developers](https://forum.xda-developers.com/attachments/downgrade-launch-app_1-0-0_all-rar.5584169/) |
+| Expert Mode Downgrade | Method 2 | [Download IPK](http://45.140.167.171/ipk/webos4x-6x.expertmode.downgrade_1.0.0_all.ipk) |
 
-# Setting up your USB Thumb Drive
+> ⚠️ **Security Note**: Only download IPK files from trusted sources. The IP above is from the community but use at your own risk.
 
-1. Connect your thumb drive up to the PC you downloaded the firmware onto
-2. Format the thumb-drive to either FAT32 or NTFS as no other formats will work. Please note this will wipe all data which is already on the drive so make sure you back this up somewhere first if it's important.
-3. Once formatted, create a folder on root of the USB thumb drive called "LG_DTV"
-4. Open up the zip file with the firmware you downloaded, in this example it would be the 3.21.30 firmware we want to downgrade to. When opened the zip file should contain a file with the extension epk inside.
-5. Copy this epk file into the "LG_DTV" folder on the root of the USB thumb drive and wait for it to copy over.
-6. Once copied, safely remove the drive from your PC and plug it into your TV. The TV will prompt you to read the files on the drive but you can just exit this to get back to the Home Menu.
+---
 
-You should now have a USB thumb drive set up to use on your LG TV with the correct previous firmware that you want to roll back to in the correct folder. We can now move onto the 3 methods that will let you initiate the downgrade or you can set up Developer Mode now.
+## Quick Start
 
-# Setting up Developer Mode
+1. Get your firmware file → [Download Guide](#getting-previous-firmware)
+2. Prepare USB drive → [Setup Guide](#usb-drive-setup)
+3. Choose a downgrade method → [Methods](#downgrade-methods)
+4. Root your TV → [Root Guide](#its-rooting-time)
 
-This falls slightly outside the scope of this guide but this link will take you to the Offical LG webOS Development site if you haven't gone there already. It will go through of getting Developer Mode installed on the TV and also your PC. You will need Developer Mode installed and Command Line Access to your TV for Method 2 or 3.
-Please note it is not required for Method 1 so you can skip this section if that one works for you.
+---
 
-# Let's Downgrade
+## Getting Previous Firmware
 
-**DISCLAIMER** Please be aware that all these methods are risky and this could go wrong. Downgrading the software and firmware on your LG TV is not supported officially by LG. Your mileage may vary and although this has worked for my LGTV model twice and should work for you. This may void your warranty and cause you to need a new TV.
+### ⚠️ IMPORTANT DISCLAIMER
 
-# Method 1 - webOS App Club Online Downgrade through the LG TV Web Browser
+Make sure you get the **right firmware** for your TV. The TV will NOT verify compatibility during installation. Installing incorrect firmware could brick your device.
 
-1. Go to https://webosapp.club/downgrade/ on your TV in the Web Browser. It should open up a dialog on screen asking if you want to connect to webos and share information with them. 
-2. Please click Yes/OK here and the website will try to get you to the Software Update screen.
-3. If this methods works, you will be able to select the firmware file from your USB Thumb drive on the TV screen to let you install the firmware you downloaded earlier. It will take up to 10 minutes and you will get a notification telling you when it's installed and asking you to click ok to reboot.
-4. If this just goes to a black screen or just reboots back to the Home Menu or Live TV then try Method 2
+### Option 1: Korean LG Website
 
-# Method 2 - Install a Downgrade IPK File using Developer Mode
+1. Go to your region's LG support page (e.g., [UK LG Site](https://www.lg.com/uk/support/product/lg-43up75006lf.aekd))
+2. Scroll down and click the **Reference** link under Software download
+3. Note all compatible model numbers
+4. Go to [Korean LG Driver Support](https://www.lge.co.kr/support/product-manuals?title=driver&mktModel) (translate to English)
+5. Search for your TV model from the reference list
+6. Download the desired firmware version
 
-1. Go to http://45.140.167.171/ipk/ on your PC and you will have a list of useful ipk files that can be installed.
-2. Translate the website to English and search the page for "webos4x-6x.expertmode.downgrade_1.0.0_all.ipk"
-3. Download the webos4x-6x.expertmode.downgrade_1.0.0_all.ipk file to your PC
-4. Go to https://forum.xda-developers.com/attachments/downgrade-launch-app_1-0-0_all-rar.5584169/?hash=f31b04de248f3fd1a0646ed9efa70b50 to download a rar file containing "downgrade.launch.app_1.0.0_all.ipk"
-5. Set up Developer Mode by following these instructions on your TV if you haven't already. During setup you will get instructions on how to connect your PC to your TV.
-6. Install the "webos4x-6x.expertmode.downgrade_1.0.0_all.ipk" ipk file using Dev Manager and it will show up at the end of the list of your Apps.
-7. Open the App and if this methods works for you then it will ask you to confirm if you want to access Expert Mode. If successful, you will be able to select the firmware file from your USB Thumb drive on the TV screen to let you install the firmware you downloaded earlier. It will take up to 10 minutes and you will get a notification telling you when it's installed and asking you to click ok to reboot.
-8. If this just goes to a black screen or just reboots back to the Home Menu or Live TV then restart the TV and uninstall "webos4x-6x.expertmode.downgrade_1.0.0_all.ipk".
-9. Install "downgrade.launch.app_1.0.0_all.ipk" using Dev Manager like before and it will show up at the end of the list of your Apps.
-10. Open the App and if this methods works for you then it will ask you to confirm if you want to open Software Update. If successful, you will be able to select the firmware file from your USB Thumb drive on the TV screen to let you install the firmware you downloaded earlier. It will take up to 10 minutes and you will get a notification telling you when it's installed and asking you to click ok to reboot.
-11. If this just goes to a black screen or just reboots back to the Home Menu or Live TV then try Method 2
+**Example**: For LG-43UP75006LF, look for `43NANO75KPA` with firmware like `UP75_82_83_NANO75_77_83KPA_LM21A_Ver.03.21.30`
 
-# Method 3 - Send a command via the webOS TV Cli
+### Option 2: Russian Telegram Channel
 
-1. Set up Developer mode if you haven't already done so and then open up the Developer Mode App on your TV
-2. Connect to your TV using the webOS Cli using this command the below command entering your IP address shown on screen. The password to connect with is the passphrase shown on screen in the Developer Mode app
+Visit the [LG webOS USB Telegram channel](https://t.me/lgwebosusb) to find firmware for your specific model.
 
-<code> - ssh -p 9922 -i ~/.ssh/tv_webos prisoner@(YOURLGTVIPADDRESS) bash -i </code>
- 
-3. Send the luna command for opening up the Software Updater program
+> 💡 **Tip**: Download both your target firmware AND the latest firmware (in case you need to update back).
 
-<code> luna-send-pub -d -n 1 -f "luna://com.webos.applicationManager/launch" '{ "id": "com.webos.app.softwareupdate", "params": { "mode": "user", "flagUpdate": true } }' </code>
+---
 
-4. If this methods works for you then it will ask you to confirm if you want to access Expert Mode. If successful, you will be able to select the firmware file from your USB Thumb drive on the TV screen to let you install the firmware you downloaded earlier. It will take up to 10 minutes and you will get a notification telling you when it's installed and asking you to click ok to reboot.
+## USB Drive Setup
 
-5. If this just goes to a black screen or just reboots back to the Home Menu or Live TV then you may be out of luck.
+1. **Format** your USB drive to **FAT32** or **NTFS**
+   > This will erase all data on the drive - backup first!
 
-# Final steps before root
+2. **Create folder** named `LG_DTV` in the root directory
 
-1. Once you have managed to roll back to a rootable firmware then you will need to uninstall the Developer Mode app from your LG TV. You can do this usually by holding on the icon in the list and then pressing up to get to the "Bin" icon. You will be asked if you are sure you want to delete Developer Mode.
-2. Go to Settings -> System -> System Update -> Check that you are on the correct firmware and also make sure that "Auto Update" is switched off here before you root so you don't accidentally update again.
+3. **Extract** the firmware ZIP file to find the `.epk` file
 
-# It's rooting time
+4. **Copy** the `.epk` file into the `LG_DTV` folder
 
-1. Go to https://rootmy.tv/ on your LG TV and "Slide to Root" if you have a magic remote or click on the button in the middle/ press 5 if you are using a regular LG TV remote.
-2. Once rooted, the TV will reboot once, when it does the first time make sure you open the "Home Screen". This is where the notifications and prompts will be shown for the root and Homebrew Channel install. 
-3. After the second reboot you will get the Homebrew Channel added to the end of the list of your Smart Apps towards the right.
-4. Open up the Homebrew Channel and click the cog at the top right of the screen to get to the Settings. You should now see listed on the left "Root Status" as ok and your webOS version.
-5. This should also automatically switch on SSH with the root user and the default password at "alpine" until you import your SSH keys. More information about this is at https://github.com/RootMyTV/RootMyTV.github.io in their Post Installation Advice
+5. **Eject** and plug into your TV
 
-# FAQ
+---
 
-### Do I need to Downgrade Firmware to root?
+## Developer Mode Setup
 
-If you have upgraded to Software Version 3.30 from May 2022 then the original exploit has been patched out. You can still use Developer Mode to get some of the functions of root but doesn't let you do everything the full root would. This is why we install Developer Mode to get to downgrade but then it's removed after root.
+Required for **Method 2** and **Method 3**.
 
-### What else do I need to know about the root install e.g. how do I get rid of it all?
+Follow the official [LG webOS Developer Mode guide](https://webostv.developer.lge.com/develop/app-test/using-devmode-app/) to:
+- Install Developer Mode on your TV
+- Set up the connection between your PC and TV
+- Enable command line access
 
-The FAQ section on RootMyTV covers most of these questions and is outside the scope of this guide for Software Firmware Downgrade. Please click here for more information https://github.com/RootMyTV/RootMyTV.github.io but a full factory reset of your TV should remove it all for you.
+---
+
+## Downgrade Methods
+
+### ⚠️ FINAL DISCLAIMER
+
+All methods are risky and could result in a bricked TV. This is not officially supported by LG and may void your warranty.
+
+---
+
+### Method 1 - WebOS App Club Online Downgrade
+
+**Easiest method - No Developer Mode required**
+
+1. Open your TV's **Web Browser**
+2. Go to: https://webosapp.club/downgrade/
+3. Click **Yes/OK** when prompted to share information
+4. Select your firmware file from the USB drive
+5. Wait up to 10 minutes for installation
+6. Reboot when prompted
+
+**Troubleshooting**: If you get a black screen or unexpected reboot, try Method 2.
+
+---
+
+### Method 2 - Install a Downgrade IPK File
+
+1. Download the required IPK files (see [Prerequisites](#prerequisites))
+2. **Install** `webos4x-6x.expertmode.downgrade_1.0.0_all.ipk` using Dev Manager
+3. **Open** the newly installed app
+4. **Confirm** Expert Mode access when prompted
+5. **Select** your firmware file from USB drive
+6. **Wait** up to 10 minutes and reboot
+
+**If Method 2a fails:**
+
+1. **Restart** your TV
+2. **Uninstall** the expert mode downgrade app
+3. **Install** `downgrade.launch.app_1.0.0_all.ipk`
+4. **Open** the app and confirm Software Update
+5. **Select** your firmware file and proceed
+
+---
+
+### Method 3 - Send Command via webOS TV CLI
+
+**For advanced users only**
+
+1. **Connect** to your TV via SSH:
+   ```bash
+   ssh -p 9922 -i ~/.ssh/tv_webos prisoner@<YOUR_TV_IP>
+   ```
+   Password is the passphrase shown in Developer Mode app
+
+2. **Send** the luna command:
+   ```bash
+   luna-send-pub -d -n 1 -f "luna://com.webos.applicationManager/launch" '{"id": "com.webos.app.softwareupdate", "params": {"mode": "user", "flagUpdate": true}}'
+   ```
+
+3. **Confirm** Expert Mode access when prompted
+4. **Select** your firmware file from USB drive
+
+---
+
+## Final Steps Before Root
+
+1. ✅ **Uninstall** Developer Mode app
+   - Long press the icon → Press up → Delete
+
+2. ✅ **Verify** firmware version
+   - Go to: Settings → System → System Update
+
+3. ✅ **Disable** Auto Update
+   - Turn OFF "Auto Update" in System Update settings
+
+---
+
+## It's Rooting Time
+
+1. **Open** your TV's web browser and go to: https://rootmy.tv/
+2. **Slide to root** (or press button/click 5 on regular remote)
+3. **First reboot**: Open Home Screen when TV restarts
+4. **Second reboot**: Homebrew Channel will appear
+5. **Verify root status**:
+   - Open Homebrew Channel → Settings (cog icon)
+   - Check "Root Status: OK"
+
+**Default SSH Credentials:**
+- User: `root`
+- Password: `alpine`
+
+> 🔐 **Security**: Change your SSH password and import your SSH keys. See [RootMyTV Post Installation](https://github.com/RootMyTV/RootMyTV.github.io) for details.
+
+---
+
+## FAQ
+
+### Do I need to downgrade to root?
+
+If you're on Software Version **3.30+** (May 2022 or later), the original exploit has been patched. Developer Mode provides limited functionality but full root requires downgrade.
 
 ### Can I brick my TV?
 
-The downgrade and root are both risky and could result in your TV bricking but there is a failsafe in the root program that does protect you slightly. More information about "Failsafe Mode" can be found at https://github.com/RootMyTV/RootMyTV.github.io
+Yes, both downgrade and root processes carry risk. However, RootMyTV includes a [Failsafe Mode](https://github.com/RootMyTV/RootMyTV.github.io) for protection.
 
-### What if this doesn't let me downgrade at all?
+### What if the downgrade doesn't work?
 
-It took me a few tries to get to the Software Update screen but once I got there it let me do it twice. If this doesn't work for you then it may just be that your TV has had these methods fully patched.
+It may take several attempts. If unsuccessful, your TV may have these methods fully patched.
 
-### How do I donate to you?
+### How do I remove root?
 
-You can buy me a coffee on https://ko-fi.com/reprodev and check out my other projects too. Come say hi and let me know you came from GitHub
+A full factory reset should remove everything. See [RootMyTV FAQ](https://github.com/RootMyTV/RootMyTV.github.io) for details.
 
-<a href='https://ko-fi.com/Z8Z6E0CY0' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+---
 
-# Background
+## Background
 
-I bought the LG 43 Inch TV 2021 Model - LG-43UP75006LF from Argos in the UK for £250 on sale in June 2022 after accidentally breaking an older LG model while moving. When I first got this TV I was unaware of the Root access and modifications over at rootmy.tv and so just updated as normal.
+This guide was created after purchasing an **LG 43UP75006LF** (UK 2021 model) which had already been updated to firmware **3.30.14**, patching the root exploit.
 
-I had already updated the firmware twice from 3.20 to 3.30.14 As of June 2022 this is the latest firmware which has the exploit patched out. 
+After researching Russian forums and AVSForums, I successfully downgraded to **3.21.30**, then to **3.20.14**, enabling root access via rootmy.tv.
 
-When I tried to roll back I found a lot of information spread across the net and mainly in Russian.
+The downgrade process typically requires several attempts before successfully accessing the Software Update screen.
 
-The 3.30.14 firmware means that you can only use the developer mode to make any changes and this has to be updated every 50 hours. This would also occasionally delete installed ipk files. For some reason the IFTT web access token wasn't working for me and the auto Developer mode took away my OTT Play IP TV Setup which will be linked here once complete
+---
 
-I had SSH access through Developer Mode and was able to do a few things here and there like install some applications and some remote shortcuts but no root access. This was quite frustrating as I wouldn't have updated if not and it seems like the downgrade option is now patched out as well as the exploit from Rootmy.tv
+## Special Thanks and References
 
-I searched through the Russian forums for information but most of the really informative information is in Russian and linked below.
+| Resource | Link |
+|----------|------|
+| AVS Forum Thread | [Link](https://www.avsforum.com/threads/guide-lg-webos-tvs-firmware-downgrade-advanced-users-only.3217168/) |
+| Russian WebOS Forums | [Link](http://webos-forums.ru/topic3157.html) |
+| XDA Developers Guide | [Link](https://forum.xda-developers.com/t/how-downgrade-software-oled65cx6la.4376371/) |
+| RootMyTV | [rootmy.tv](https://rootmy.tv/) |
+| Homebrew Channel | [GitHub](https://github.com/webosbrew/webos-homebrew-channel) |
 
-Following Method 2 after trying Method 3 a few times I was able to get the Software Update screen to open but then installed a version of the firmware that was one version back to many. Once installed I was unable to open the Web Browser and was being asked to update my Firmware.
+### Notable Developers from Russian WebOS Forums
 
-I found the later 3.20.14 and used this instead with Method 2 and replaced this on the USB thumbdrive to do the upgrade. This version let me open the Web Browser and go to https://rootmy.tv to perform the root install as normal. I tested it after by installing some IPKs and other fun stuff
+- **Jack Sparrow**: [Profile](http://webos-forums.ru/jacksparrow-u8940.html)
+- **Mixmar**: [Profile](http://webos-forums.ru/mixmar-u2483.html)
 
-## Special Thanks and References:
+---
 
-### AVS Forum LG TV Firmware Downgrade Thread
+## Support
 
-https://www.avsforum.com/threads/guide-lg-webos-tvs-firmware-downgrade-advanced-users-only.3217168/
+- 📖 **Documentation**: [RootMyTV GitHub](https://github.com/RootMyTV/RootMyTV.github.io)
+- 💬 **Community**: [Russian WebOS Forums](http://webos-forums.ru/)
+- 📺 **Firmware**: [LG webOS USB Telegram](https://t.me/lgwebosusb)
 
-### LG TV Firmware Rollback Thread from Russian WebOS Forums:
+---
 
-http://webos-forums.ru/topic3157.html
+## License
 
-## Developers from Russian webOS Forums
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-### Jack Sparrow : 
+Original author: [ReproDev](https://github.com/reprodev)
 
-http://webos-forums.ru/jacksparrow-u8940.html
+---
 
-### Mixmar : 
+## Donate
 
-http://webos-forums.ru/mixmar-u2483.html
+If this guide helped you, consider supporting the original author:
 
-### How To Downgrade Software for OLED65CX61A from XDA Developers Site
+[![Buy Me A Coffee](https://cdn.ko-fi.com/cdn/kofi2.png?v=3)](https://ko-fi.com/reprodev)
 
-https://forum.xda-developers.com/t/how-downgrade-software-oled65cx6la.4376371/
-
-# Finally!
-
-Please go ahead and follow me for more and feel free to comment on if this works for you, if you've found a way to make this process better or if there is anything in here that needs to be amended to make it flow better. I'd love to hear from anyone that has given this a try
-
-<a href='https://ko-fi.com/Z8Z6E0CY0' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-
-Yours technically,
-ReproDev
+**Made with ❤️ for the webOS community**
