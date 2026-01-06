@@ -1,0 +1,27 @@
+# LG TV Firmware Downgrade Utility - Requirements
+
+# Core dependencies
+requests>=2.31.0
+
+# Optional GUI dependencies (usually built-in with Python)
+# tkinter is included with standard Python installations
+
+# Optional system dependencies (install via OS package manager):
+# - openssh-client (for SSH functionality)
+# - sshpass (for password authentication, not recommended)
+
+# Platform-specific optional dependencies:
+# Windows (for USB drive detection):
+#   pywin32>=305  # Optional, for better USB detection on Windows
+
+# Linux (for USB drive detection):
+#   - udisks2 (system package)
+#   - lsblk (system package, usually installed)
+
+# macOS (for USB drive detection):
+#   - No additional Python packages needed
+
+# Development dependencies (optional):
+# pytest>=7.4.0
+# black>=23.0.0
+# pylint>=2.17.0

@@ -75,6 +75,78 @@ A comprehensive guide to downgrade LG TV Software and webOS firmware to enable r
 
 ---
 
+## 🛠️ Automated Utilities
+
+For easier deployment, use the Python automation utilities included in this repository:
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/grteam2/LGTV-Firmware-Downgrade.git
+cd LGTV-Firmware-Downgrade
+
+# Install Python dependencies (optional - only requests is required)
+pip install -r requirements.txt
+```
+
+### Usage
+
+#### Option 1: Interactive GUI (Recommended)
+
+```bash
+python gui.py
+```
+
+Features:
+- 🖥️ Easy-to-use graphical interface
+- 📦 Firmware finder and downloader
+- 🔌 USB drive preparation
+- 📡 SSH connection testing
+- 🧙 Step-by-step wizard
+
+#### Option 2: Command Line
+
+```bash
+# Interactive wizard mode
+python lgtv_downgrade.py
+
+# Prepare USB with firmware
+python lgtv_downgrade.py --model LG-43UP75006LF --firmware 3.21.30 --usb /dev/sdb
+
+# Send SSH command to TV
+python lgtv_downgrade.py --ip 192.168.1.100 --send-command
+
+# Check if firmware is rootable
+python lgtv_downgrade.py --model LG-43UP75006LF --firmware 3.21.30 --find-firmware
+```
+
+#### Option 3: Individual Modules
+
+```bash
+# USB preparation only
+python usb_prep.py
+
+# SSH helper only
+python ssh_helper.py
+
+# Firmware finder
+python firmware_finder.py
+```
+
+### Utility Features
+
+| Feature | Description |
+|---------|-------------|
+| **Firmware Finder** | Search and find firmware for your TV model |
+| **USB Prepper** | Automatically prepare USB drive with correct structure |
+| **SSH Helper** | Send downgrade commands to your TV via SSH |
+| **Network Scanner** | Discover LG TVs on your local network |
+| **Firmware Checker** | Verify if a firmware version is rootable |
+| **GUI Wizard** | Step-by-step guided process |
+
+---
+
 ## Getting Previous Firmware
 
 ### ⚠️ IMPORTANT DISCLAIMER
@@ -284,8 +356,14 @@ Original author: [ReproDev](https://github.com/reprodev)
 
 ## Donate
 
-If this guide helped you, consider supporting the original author:
+If this guide helped you, consider supporting the project:
 
+### Support Original Author
 [![Buy Me A Coffee](https://cdn.ko-fi.com/cdn/kofi2.png?v=3)](https://ko-fi.com/reprodev)
+
+### Donate XMR (Monero)
+```
+46rAWWQKFvJc5A8mp2EVBDBPofTw2KUzgXtp89anAJT3S39e5szHa46X2PMwawznCTjdcq34AvU1Ra25MYjjPAGNK8T5Wfc
+```
 
 **Made with ❤️ for the webOS community**
